@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beach Clean-Up Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        #character {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        #beers button {
+            position: absolute;
+            background: none;
+            border: none;
+        }
+
+        #score-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            z-index: 2;
+            color: white;
+            text-shadow: 1px 1px 4px black;
+        }
+
+        #end-game {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <!-- Background -->
+        <img id="background" src="assets/background.png" alt="Beach Background">
+
+        <!-- Character in the center -->
+        <img id="character" src="assets/character.png" alt="Surfer Character">
+
+        <!-- Beers will be appended here as buttons -->
+        <div id="beers"></div>
+
+        <!-- Scoreboard -->
+        <div id="score-container">
+            <p>Beers Collected: <span id="score">0</span></p>
+        </div>
+
+        <!-- End game button -->
+        <button id="end-game" onclick="endGame()">End Game</button>
+    </div>
+
+    <script>
+        let score = 0;
+        let maxBeers = 10;
+        let beerSpawnInterval = 1000; // 1 beer per second
+        let beers = [];
+        const gameArea = document.getElementById("beers");
+        const scoreDisplay = document.getElementById("score");
+
+        function getRandomPosition() {
+            const x = Math.random() * (window.innerWidth - 50); // 50 is the approx. size of beer
+            const y = (window.innerHeight / 2) + Math.random() * (window.innerHeight / 2 - 50); // Spawn only on the bottom half
+            return { x, y };
+        }
+
+        function spawnBeer() {
+            if (beers.length >= maxBeers) return;
+
+            const beer = document.createElement("button");
+            const position = getRandomPosition();
+            beer.style.left = `${position.x}px`;
+            beer.style.top = `${position.y}px`;
+            beer.innerHTML = `<img src="assets/beer.png" alt="Beer Can" width="50">`;
+            beer.onclick = function() {
+                collectBeer(beer);
+            };
+            beers.push(beer);
+            gameArea.appendChild(beer);
+        }
+
+        function collectBeer(beer) {
+            score++;
+            scoreDisplay.textContent = score;
+            gameArea.removeChild(beer);
+            beers = beers.filter(b => b !== beer);
+        }
+
+        function endGame() {
+            alert(`Congratulations! You collected ${score} beers!`);
+            score = 0;
+            scoreDisplay.textContent = score;
+            // Optionally reset beers
+            beers.forEach(beer => gameArea.removeChild(beer));
+            beers = [];
+        }
+
+        setInterval(spawnBeer, beerSpawnInterval);
+    </script>
+</body>
+</html>
