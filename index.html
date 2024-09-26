@@ -33,6 +33,16 @@
             width: 30%; /* 15% smaller */
             z-index: 1;
             margin: 50px 0; /* Added gap around character */
+            pointer-events: none; /* Make character non-clickable */
+        }
+
+        #logo {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 10%; /* Adjust size of logo */
+            z-index: 1;
         }
 
         #beers button {
@@ -76,6 +86,9 @@
         <!-- Character in the center -->
         <img id="character" src="assets/character.png" alt="Surfer Character">
 
+        <!-- Logo in the center -->
+        <img id="logo" src="assets/LogoW.png" alt="Logo">
+
         <!-- Beers will be appended here as buttons -->
         <div id="beers"></div>
 
@@ -98,11 +111,13 @@
         const character = document.getElementById("character");
         
         const characterGap = 100; // Gap around character for beer spawning
+        const spawnAreaHeight = window.innerHeight * 0.4; // Spawn only in the bottom 40%
+        const spawnAreaTop = window.innerHeight - spawnAreaHeight; // Top boundary for spawning
 
         function getRandomPosition() {
             const characterRect = character.getBoundingClientRect();
             const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 100);
+            const y = spawnAreaTop + Math.random() * spawnAreaHeight; // Limit y position to bottom area
 
             // Ensure the beer is outside the defined gap around the character
             if (x < characterRect.left - characterGap || 
