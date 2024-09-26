@@ -60,6 +60,11 @@
             transform: translateX(-50%);
             font-size: 20px;
             z-index: 2;
+            padding: 10px 20px; /* Added padding for better tap area */
+            background-color: rgba(255, 255, 255, 0.8); /* Background for visibility */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -90,11 +95,24 @@
         let beers = [];
         const gameArea = document.getElementById("beers");
         const scoreDisplay = document.getElementById("score");
+        const character = document.getElementById("character");
+        
+        const characterGap = 100; // Gap around character for beer spawning
 
         function getRandomPosition() {
-            const x = Math.random() * (window.innerWidth - 100); // Adjust for beer size
-            const y = (window.innerHeight / 2) + Math.random() * (window.innerHeight / 2 - 100); // Adjust for beer size
-            return { x, y };
+            const characterRect = character.getBoundingClientRect();
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+
+            // Ensure the beer is outside the defined gap around the character
+            if (x < characterRect.left - characterGap || 
+                x > characterRect.right + characterGap || 
+                y < characterRect.top - characterGap || 
+                y > characterRect.bottom + characterGap) {
+                return { x, y };
+            }
+            // If the position is too close, recursively call to find a new position
+            return getRandomPosition();
         }
 
         function spawnBeer() {
