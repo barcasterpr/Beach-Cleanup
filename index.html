@@ -21,6 +21,7 @@
             position: absolute;
             width: 100%;
             height: 100%;
+            object-fit: contain; /* Fit the background without filling */
             z-index: -1;
         }
 
@@ -29,7 +30,9 @@
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
+            width: 85%; /* 15% smaller */
             z-index: 1;
+            margin: 50px 0; /* Added gap around character */
         }
 
         #beers button {
@@ -40,9 +43,11 @@
 
         #score-container {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 24px;
+            top: 0; /* Center the score container */
+            left: 0;
+            right: 0;
+            text-align: center; /* Center the text */
+            font-size: 36px; /* Increased font size */
             z-index: 2;
             color: white;
             text-shadow: 1px 1px 4px black;
@@ -87,8 +92,8 @@
         const scoreDisplay = document.getElementById("score");
 
         function getRandomPosition() {
-            const x = Math.random() * (window.innerWidth - 50); // 50 is the approx. size of beer
-            const y = (window.innerHeight / 2) + Math.random() * (window.innerHeight / 2 - 50); // Spawn only on the bottom half
+            const x = Math.random() * (window.innerWidth - 100); // Adjust for beer size
+            const y = (window.innerHeight / 2) + Math.random() * (window.innerHeight / 2 - 100); // Adjust for beer size
             return { x, y };
         }
 
