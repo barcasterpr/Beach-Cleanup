@@ -89,7 +89,7 @@
 
         #instructions {
             position: absolute;
-            top: 30%; /* Adjust position for instructions */
+            top: 15%; /* Move instructions higher up */
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 2;
@@ -98,9 +98,19 @@
             font-size: 22px; /* Font size for instructions */
             text-shadow: 1px 1px 4px black;
             padding: 20px; /* Padding around text */
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
             border-radius: 10px; /* Rounded corners for the instructions box */
             width: 80%; /* Responsive width */
+        }
+
+        #close-button {
+            margin-top: 20px; /* Space between instructions text and button */
+            padding: 10px 15px; /* Padding for button */
+            background-color: rgba(255, 255, 255, 0.8); /* Button background */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px; /* Font size for button */
         }
     </style>
 </head>
@@ -123,6 +133,7 @@
             <p>🌊 Help Jeremmie clean up the beach as fast as you can! 🌊</p>
             <p>🍺 Collect as many beers as possible and reach the highest score!</p>
             <p>⏱️ Are you up for the challenge?</p>
+            <button id="close-button" onclick="closeInstructions()">Let's clean the beach!</button>
         </div>
 
         <!-- Scoreboard -->
@@ -144,7 +155,7 @@
         const gameArea = document.getElementById("beers");
         const scoreDisplay = document.getElementById("score");
         const character = document.getElementById("character");
-        
+
         const characterGap = 100; // Gap around character for beer spawning
         const spawnAreaHeight = window.innerHeight * 0.4; // Spawn only in the bottom 40%
         const spawnAreaTop = window.innerHeight - spawnAreaHeight; // Top boundary for spawning
@@ -201,6 +212,10 @@
             // Optionally reset beers
             beers.forEach(beer => gameArea.removeChild(beer));
             beers = [];
+        }
+
+        function closeInstructions() {
+            document.getElementById('instructions').style.display = 'none'; // Hide instructions
         }
 
         setInterval(spawnBeer, beerSpawnInterval);
