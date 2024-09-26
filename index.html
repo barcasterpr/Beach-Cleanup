@@ -67,20 +67,24 @@
             text-shadow: 1px 1px 4px black;
         }
 
-        #end-game {
+        #end-game-container {
             position: absolute;
-            bottom: 40px; /* Space from the bottom */
+            bottom: 100px; /* Space from the bottom */
             left: 50%;
             transform: translateX(-50%);
-            font-size: 18px; /* Reduced font size */
             z-index: 2;
+            text-align: center;
+            width: 80%; /* Responsive width */
+        }
+
+        #end-game {
+            font-size: 18px; /* Reduced font size */
             padding: 10px 20px; /* Added padding for better tap area */
             background-color: rgba(255, 255, 255, 0.8); /* Background for visibility */
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            width: 80%; /* Responsive width */
-            display: block; /* Ensure it's displayed */
+            width: 100%; /* Full width of the container */
         }
     </style>
 </head>
@@ -103,8 +107,10 @@
             <p>Beers Collected: <span id="score">0</span></p>
         </div>
 
-        <!-- End game button -->
-        <button id="end-game" onclick="endGame()">End Game</button>
+        <!-- End game button inside a container -->
+        <div id="end-game-container">
+            <button id="end-game" onclick="endGame()">End Game</button>
+        </div>
     </div>
 
     <script>
