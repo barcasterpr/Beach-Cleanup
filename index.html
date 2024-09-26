@@ -67,24 +67,40 @@
             text-shadow: 1px 1px 4px black;
         }
 
-        #end-game-container {
+        #recycle-container {
             position: absolute;
-            bottom: 100px; /* Space from the bottom */
+            bottom: 150px; /* Space from the bottom */
             left: 50%;
             transform: translateX(-50%);
             z-index: 2;
             text-align: center;
-            width: 80%; /* Responsive width */
+            width: 60%; /* Adjust width of the button */
         }
 
-        #end-game {
-            font-size: 18px; /* Reduced font size */
-            padding: 10px 20px; /* Added padding for better tap area */
+        #recycle-button {
+            font-size: 18px; /* Font size for button */
+            padding: 10px 20px; /* Padding for better tap area */
             background-color: rgba(255, 255, 255, 0.8); /* Background for visibility */
             border: none;
             border-radius: 5px;
             cursor: pointer;
             width: 100%; /* Full width of the container */
+        }
+
+        #instructions {
+            position: absolute;
+            top: 30%; /* Adjust position for instructions */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            text-align: center;
+            color: white;
+            font-size: 22px; /* Font size for instructions */
+            text-shadow: 1px 1px 4px black;
+            padding: 20px; /* Padding around text */
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            border-radius: 10px; /* Rounded corners for the instructions box */
+            width: 80%; /* Responsive width */
         }
     </style>
 </head>
@@ -102,14 +118,21 @@
         <!-- Beers will be appended here as buttons -->
         <div id="beers"></div>
 
+        <!-- Instructions -->
+        <div id="instructions">
+            <p>🌊 Help Jeremmie clean up the beach as fast as you can! 🌊</p>
+            <p>🍺 Collect as many beers as possible and reach the highest score!</p>
+            <p>⏱️ Are you up for the challenge?</p>
+        </div>
+
         <!-- Scoreboard -->
         <div id="score-container">
             <p>Beers Collected: <span id="score">0</span></p>
         </div>
 
-        <!-- End game button inside a container -->
-        <div id="end-game-container">
-            <button id="end-game" onclick="endGame()">End Game</button>
+        <!-- Recycle button inside a container -->
+        <div id="recycle-container">
+            <button id="recycle-button" onclick="endGame()">RECYCLE</button>
         </div>
     </div>
 
@@ -131,12 +154,19 @@
             const x = Math.random() * (window.innerWidth - 100);
             const y = spawnAreaTop + Math.random() * spawnAreaHeight; // Limit y position to bottom area
 
-            // Ensure the beer is outside the defined gap around the character
+            // Ensure the beer is outside the defined gap around the character and the recycle button
             if (x < characterRect.left - characterGap || 
                 x > characterRect.right + characterGap || 
                 y < characterRect.top - characterGap || 
                 y > characterRect.bottom + characterGap) {
-                return { x, y };
+
+                const buttonRect = document.getElementById('recycle-container').getBoundingClientRect();
+                if (x < buttonRect.left - characterGap || 
+                    x > buttonRect.right + characterGap || 
+                    y < buttonRect.top - characterGap || 
+                    y > buttonRect.bottom + characterGap) {
+                    return { x, y };
+                }
             }
             // If the position is too close, recursively call to find a new position
             return getRandomPosition();
@@ -165,7 +195,7 @@
         }
 
         function endGame() {
-            alert(`Congratulations! You collected ${score} beers!`);
+            alert(`Congratulations! You collected ${score} beers!\n\nThank you for cleaning up with us! Remember to clean up the beach and protect our environment! 🌊🌍`);
             score = 0;
             scoreDisplay.textContent = score;
             // Optionally reset beers
