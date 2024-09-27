@@ -147,6 +147,9 @@
         </div>
     </div>
 
+    <!-- Hidden audio element for the pickup sound -->
+    <audio id="pickup-sound" src="assets/pickupcan.wav"></audio>
+
     <script>
         let score = 0;
         let maxBeers = 10;
@@ -155,6 +158,7 @@
         const gameArea = document.getElementById("beers");
         const scoreDisplay = document.getElementById("score");
         const character = document.getElementById("character");
+        const pickupSound = document.getElementById('pickup-sound'); // Get sound element
 
         const characterGap = 100; // Gap around character for beer spawning
         const spawnAreaHeight = window.innerHeight * 0.4; // Spawn only in the bottom 40%
@@ -203,6 +207,9 @@
             scoreDisplay.textContent = score;
             gameArea.removeChild(beer);
             beers = beers.filter(b => b !== beer);
+
+            // Play the pickup sound effect
+            pickupSound.play();
         }
 
         function endGame() {
@@ -223,6 +230,12 @@
         }
 
         setInterval(spawnBeer, beerSpawnInterval);
+
+        // Ensure sound is triggered after first interaction (mobile compatibility)
+        window.addEventListener('click', () => {
+            pickupSound.play();
+            pickupSound.pause();
+        }, { once: true });
     </script>
 </body>
 </html>
